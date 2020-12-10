@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import { createDemo1Action, createDemo2Action } from '../../redux/action_creators/test_actions'
 import './css/login.less';
 import logo from './imgs/logo.png';
 
-export default class Login extends Component {
+class Login extends Component {
+
+    componentDidMount() {
+        console.log(this.props);
+    }
 
     // 点击登录按钮的回调
     onFinish = (values) => {
@@ -12,7 +18,7 @@ export default class Login extends Component {
     };
 
     pwdValidator = (rule, value) => {
-        if (!value) { 
+        if (!value) {
             // 提示必须输入密码
             return Promise.reject("密码不能为空！");
         } else if (value.length > 12) {
@@ -98,3 +104,11 @@ export default class Login extends Component {
         )
     }
 }
+
+export default connect(
+    state => ({ test: state.test }),
+    {
+        demo1: createDemo1Action,
+        demo2: createDemo2Action
+    }
+)(Login);
